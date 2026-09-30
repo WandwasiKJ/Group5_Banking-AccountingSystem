@@ -83,16 +83,20 @@ class SavingsAccount(BankAccount): #inherits common functionality from BankAccou
         
         return interest
 
-class CurrentAccount(BankAccount): #inherits common functionality from BankAccount.
+# ------------------ CurrentAccount ------------------
+class CurrentAccount(BankAccount):
+    def __init__(self, account_number, balance=0, overdraft_limit=500):
+        super().__init__(account_number, balance)
+        self.overdraft_limit = overdraft_limit
 
     def withdraw(self, amount):
-        if amount <= 0:
-            raise ValueError("Amount must be greater than zero.")
-
-        if amount > self.balance:
-            raise ValueError("Insufficient funds.")
-            # current account may allow an overdraft
-            # depending on the rules you define
+        if amount > self.balance + self.overdraft_limit:
+            raise ValueError("Overdraft limit exceeded")
+        self._update_balance(-amount)
+        self.transactions.append(Transaction(len(self.transactions)+1, "Withdrawal", amount))
 
     def calculate_interest(self, months=1):
-        return 0.0  # Current accounts typically do not earn interest.kli  
+        return 0
+
+    def calculate_charge(self):
+        return 10 
