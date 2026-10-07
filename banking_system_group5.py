@@ -1,7 +1,7 @@
 
 from abc import ABC, abstractmethod
-from datetime import date, datetime
-from typing import List, Optional
+from datetime import date, datetime #the program uses datetime when recording when the transaction happended
+from typing import List, Optional #This discribs the type of data somethimg should contain
 
 
 class Transaction:
