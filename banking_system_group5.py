@@ -15,8 +15,8 @@ class Transaction:
 
     def __str__(self) -> str:
         return (
-            f"{self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} | "
-            f"{self.transaction_type:<10} | UGX {self.amount:,.2f} | "
+            f"{self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} | " #turns the time into text.
+            f"{self.transaction_type:<10} | UGX {self.amount:,.2f} | " #The characters are written on the last and then with 10 spaces on the right.
             f"{self.description}"
         )
 
@@ -40,12 +40,12 @@ class Customer:
     def name(self) -> str:
         return self.__name
 
-    @name.setter
+    @name.setter 
     def name(self, value: str):
         value = value.strip()
         if not value or len(value) < 2:
             raise ValueError("Customer name must contain at least 2 characters.")
-        self.__name = value.title()
+        self.__name = value.title() #.title() makes the first letter of each word a capital
 
     @property
     def phone(self) -> str:
@@ -59,11 +59,11 @@ class Customer:
         self.__phone = value
 
     @property
-    def accounts(self) -> List["BankAccount"]:
-        # Return a copy so outside code cannot directly replace the customer's list.
+    def accounts(self) -> List["BankAccount"]: #Getting the BankAccount list
+        # Return a copy so outside code cannot directly replace the customer's list. Or returns a copy to avoid the real list from getting lost.
         return list(self._accounts)
 
-    def add_account(self, account: "BankAccount") -> None:
+    def add_account(self, account: "BankAccount") -> None: #Add an account only if it isnt't already there.
         if account not in self._accounts:
             self._accounts.append(account)
 
@@ -108,7 +108,7 @@ class BankAccount(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def withdraw(self, amount: float) -> bool:
+    def withdraw(self, amount: float) -> bool: #Returns True or False to show whether it has been withdrawn or not.
         """Withdraw money according to the rules of the specific account."""
         raise NotImplementedError
 
@@ -144,7 +144,7 @@ class BankAccount(ABC):
             self._balance += interest
             self._record_transaction("INTEREST", interest, "Interest credited")
         return interest
-
+    #Charges after withdraw
     def charge(self, amount: float = 0.0) -> float:
         charge = self.calculate_charge(amount)
         if charge > 0:
@@ -171,11 +171,11 @@ class BankAccount(ABC):
     def _receive_transfer(self, amount: float, source_account_number: str) -> None:
         self._balance += amount
         self._record_transaction("TRANSFER", amount, f"Transfer from {source_account_number}")
-
+    #check whether the withdraw is greater than zero
     def _validate_withdraw_amount(self, amount: float) -> None:
         if amount <= 0:
             raise ValueError("Withdrawal amount must be greater than zero.")
-
+    #Can i withdraw? Is my balance greater than the amount i need?
     def _can_afford(self, amount: float) -> bool:
         return self._balance >= amount
 
