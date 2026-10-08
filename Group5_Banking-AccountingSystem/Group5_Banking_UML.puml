@@ -1,0 +1,100 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title Group 5 - Banking and Account Management System
+
+abstract class BankAccount {
+  - __account_number: str
+  # _balance: float
+  + customer: Customer
+  # _transactions: List[Transaction]
+  + account_number: str {property}
+  + balance: float {property}
+  {abstract} + account_type: str {property}
+  {abstract} + withdraw(amount: float): bool
+  {abstract} + calculate_interest(): float
+  {abstract} + calculate_charge(amount: float = 0): float
+  + deposit(amount: float): bool
+  + apply_interest(): float
+  + charge(amount: float = 0): float
+  + get_transactions(): List[Transaction]
+}
+
+class SavingsAccount {
+  + INTEREST_RATE: float = 0.03
+  + account_type: str {property}
+  + withdraw(amount: float): bool
+  + calculate_interest(): float
+  + calculate_charge(amount: float = 0): float
+}
+
+class CurrentAccount {
+  + TRANSACTION_CHARGE: float = 1000
+  + MINIMUM_BALANCE: float = 10000
+  + account_type: str {property}
+  + withdraw(amount: float): bool
+  + calculate_interest(): float
+  + calculate_charge(amount: float = 0): float
+}
+
+class FixedDepositAccount {
+  + INTEREST_RATE: float = 0.08
+  - __term_months: int
+  - __start_date: date
+  - __maturity_date: date
+  + account_type: str {property}
+  + term_months: int {property}
+  + maturity_date: date {property}
+  + is_matured(): bool
+  + withdraw(amount: float): bool
+  + calculate_interest(): float
+  + calculate_charge(amount: float = 0): float
+}
+
+class Customer {
+  - __customer_id: str
+  - __name: str
+  - __phone: str
+  # _accounts: List[BankAccount]
+  + customer_id: str {property}
+  + name: str {property}
+  + phone: str {property}
+  + accounts: List[BankAccount] {property}
+  + add_account(account: BankAccount): void
+  + get_account(account_number: str): BankAccount
+}
+
+class Transaction {
+  + transaction_type: str
+  + amount: float
+  + description: str
+  + timestamp: datetime
+}
+
+class Bank {
+  + name: str
+  # _customers: List[Customer]
+  # _accounts: List[BankAccount]
+  - __next_customer_id: int
+  - __next_account_number: int
+  + register_customer(name: str, phone: str): Customer
+  + find_customer(customer_id: str): Customer
+  + open_account(customer_id: str, account_type: str, opening_balance: float, term_months: int): BankAccount
+  + deposit(account_number: str, amount: float): bool
+  + withdraw(account_number: str, amount: float): bool
+  + transfer(from_number: str, to_number: str, amount: float): bool
+  + summary(): void
+}
+
+BankAccount <|-- SavingsAccount
+BankAccount <|-- CurrentAccount
+BankAccount <|-- FixedDepositAccount
+
+Bank "1" o-- "0..*" Customer : registers
+Customer "1" o-- "0..*" BankAccount : owns
+Bank "1" o-- "0..*" BankAccount : manages
+BankAccount "1" *-- "0..*" Transaction : records
+BankAccount "0..*" --> "1" Customer : belongs to
+Bank ..> BankAccount : creates / coordinates
+
+@enduml
