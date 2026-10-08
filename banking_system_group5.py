@@ -360,8 +360,8 @@ class Bank:
 
         account_number = str(self.__next_account_number)
         account_type = account_type.strip().lower()
-
-        if account_type == "savings":
+        #Picks which class to create based on the type
+        if account_type == "savings": 
             account = SavingsAccount(account_number, customer, opening_balance)
         elif account_type == "current":
             if opening_balance < CurrentAccount.MINIMUM_BALANCE:
@@ -392,7 +392,7 @@ class Bank:
             print("Withdrawal rejected: account not found.")
             return False
         return account.withdraw(amount)
-
+    
     def transfer(self, from_number: str, to_number: str, amount: float) -> bool:
         source = self.find_account(from_number)
         destination = self.find_account(to_number)
@@ -409,7 +409,7 @@ class Bank:
         if not source._can_afford(amount):
             print("Transfer rejected: insufficient balance in source account.")
             return False
-
+        #try means: "Attempt this code. If a specific error happens, don't crash. Jump to the except part instead."
         try:
             source.transfer_to(destination, amount)
         except ValueError as error:
