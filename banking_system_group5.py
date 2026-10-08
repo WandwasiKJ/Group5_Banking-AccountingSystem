@@ -188,14 +188,14 @@ class BankAccount(ABC):
 
 class SavingsAccount(BankAccount):
     """Savings account with interest and no monthly charge."""
-
+    #savings account inherites from Bankaccount
     INTEREST_RATE = 0.03
 
     @property
     def account_type(self) -> str:
         return "Savings Account"
 
-    def withdraw(self, amount: float) -> bool:
+    def withdraw(self, amount: float) -> bool:#defines how money is withdrawn from the savings account
         try:
             self._validate_withdraw_amount(amount)
         except ValueError as error:
