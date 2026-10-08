@@ -446,10 +446,10 @@ class Bank:
 
 # ----------------------------- MENU / USER INTERFACE -----------------------------
 
-def read_positive_amount(prompt: str) -> float:
+def read_positive_amount(prompt: str) -> float:#function is used to read a positive amount from the user, and it will keep asking until a valid amount is entered.
     while True:
         try:
-            amount = float(input(prompt).strip())
+            amount = float(input(prompt).strip())#converts the input to a float and removes any leading or trailing whitespace.
             if amount <= 0:
                 print("Enter an amount greater than zero.")
                 continue
@@ -458,7 +458,7 @@ def read_positive_amount(prompt: str) -> float:
             print("Invalid amount. Enter a numeric value.")
 
 
-def read_non_negative_amount(prompt: str) -> float:
+def read_non_negative_amount(prompt: str) -> float:#function is used to read a non-negative amount from the user, and it will keep asking until a valid amount is entered.
     while True:
         try:
             amount = float(input(prompt).strip())
@@ -470,7 +470,7 @@ def read_non_negative_amount(prompt: str) -> float:
             print("Invalid amount. Enter a numeric value.")
 
 
-def show_account(account: BankAccount) -> None:
+def show_account(account: BankAccount) -> None:#function is used to display the details of a bank account, including account number, type, customer information, balance, and additional details for fixed deposit accounts.
     print("\n" + "-" * 78)
     print("ACCOUNT DETAILS")
     print("-" * 78)
@@ -479,17 +479,17 @@ def show_account(account: BankAccount) -> None:
     print(f"Customer       : {account.customer.name} ({account.customer.customer_id})")
     print(f"Balance        : UGX {account.balance:,.2f}")
 
-    if isinstance(account, FixedDepositAccount):
+    if isinstance(account, FixedDepositAccount):#shows the term and maturity date for fixed deposit accounts, as well as whether the account has matured.
         print(f"Term           : {account.term_months} month(s)")
         print(f"Maturity date  : {account.maturity_date.isoformat()}")
         print(f"Matured        : {'Yes' if account.is_matured() else 'No'}")
     print("-" * 78)
 
 
-def show_transaction_history(account: BankAccount) -> None:
+def show_transaction_history(account: BankAccount) -> None:#function is used to display the transaction history for a given bank account.
     print(f"\nTRANSACTION HISTORY - ACCOUNT {account.account_number}")
     print("-" * 78)
-    transactions = account.get_transactions()
+    transactions = account.get_transactions()#get method is used to retrieve the list of transactions for the account.
     if not transactions:
         print("No transactions recorded.")
     else:
@@ -502,7 +502,7 @@ def choose_account_type() -> str:
     print("2. Current Account")
     print("3. Fixed Deposit Account")
     choice = input("Choose account type: ").strip()
-    return {"1": "savings", "2": "current", "3": "fixed"}.get(choice, "invalid")
+    return {"1": "savings", "2": "current", "3": "fixed"}.get(choice, "invalid")# get method is used to retrieve the corresponding account type based on the user's choice. If the choice is not valid, it returns "invalid".
 
 
 def menu(bank: Bank) -> None:
