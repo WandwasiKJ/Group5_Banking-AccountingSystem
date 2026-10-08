@@ -231,7 +231,7 @@ class CurrentAccount(BankAccount):
 
     def withdraw(self, amount: float) -> bool:
         try:
-            self._validate_withdraw_amount(amount)
+            self._validate_withdraw_amount(amount)#this is a check to see if the withdraw is greater than zero.
         except ValueError as error:
             print(f"Withdrawal rejected: {error}")
             return False
@@ -242,7 +242,7 @@ class CurrentAccount(BankAccount):
                 "Withdrawal rejected: transaction charge and minimum balance rule "
                 "would be violated."
             )
-            return False
+            return False#this is a check to see if the withdraw is greater than the balance and the transaction charge and minimum balance rule would be violated.
 
         self._balance -= amount
         self._record_transaction("WITHDRAW", amount, "Current account withdrawal")
