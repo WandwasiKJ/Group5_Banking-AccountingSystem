@@ -360,8 +360,8 @@ class Bank:
 
         account_number = str(self.__next_account_number)
         account_type = account_type.strip().lower()
-
-        if account_type == "savings":
+        #Picks which class to create based on the type
+        if account_type == "savings": 
             account = SavingsAccount(account_number, customer, opening_balance)
         elif account_type == "current":
             if opening_balance < CurrentAccount.MINIMUM_BALANCE:
