@@ -218,11 +218,11 @@ class SavingsAccount(BankAccount):
         return 0.0
 
 
-class CurrentAccount(BankAccount):
+class CurrentAccount(BankAccount):#cuurent account means
     """Current account with a transaction charge and minimum balance rule."""
 
     TRANSACTION_CHARGE = 1000.0
-    MINIMUM_BALANCE = 10_000.0
+    MINIMUM_BALANCE = 10000.0
     #these are constant values that are the same for all current accounts, hence they are class variables.
 
     @property#this is a decorator that allows the method to be accessed like an attribute.
@@ -252,7 +252,7 @@ class CurrentAccount(BankAccount):
         return True
 
     def calculate_interest(self) -> float:
-        return 0.0#this is a current account, so no interest is calculated.
+        return 0.0#this is because current accounts do not earn interest, so the method returns 0.0.
 
     def calculate_charge(self, amount: float = 0.0) -> float:
         return self.TRANSACTION_CHARGE
